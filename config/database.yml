@@ -1,0 +1,35 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database:  resto_manager_development
+  username: postgres
+  password: abdou5626
+  host: 127.0.0.1
+  port: 5432
+
+test:
+  <<: *default
+  database: resto_manager_test
+  username: postgres
+  password: abdou5626
+  host: 127.0.0.1
+  port: 5432
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+
+# ✅ Section cable à la racine (et pas dans production)
+cable:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+
+# ✅ Section queue : utilisée par SolidQueue (nouveau dans Rails 8)
+queue:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>

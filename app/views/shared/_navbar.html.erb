@@ -1,0 +1,45 @@
+<nav class="relative bg-gray-800">
+  <div class="flex h-16 items-center justify-between w-full">
+
+    <!-- Logo collé à gauche -->
+    <div class="flex items-center space-x-4 pl-4 flex-shrink-0">
+      <span class="text-white font-bold text-xl">🍽️ RestoManager</span>
+      <%= link_to "Accueil", root_path,
+          class: "rounded-md px-3 py-2 text-sm font-medium text-white bg-gray-900" %>
+    </div>
+
+    <!-- Desktop menu centré / droite -->
+    <div class="hidden sm:flex space-x-4">
+      <%= link_to "Menus", menus_path,
+          class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" %>
+      <% if user_signed_in? && current_user.admin? %>
+        <%= link_to "Ajouter menu", new_menu_path,
+            class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" %>
+        <%= link_to "Utilisateurs", users_path,
+            class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" %>
+      <% end %>
+    </div>
+
+    <!-- Right side -->
+    <div class="flex items-center space-x-4 pr-4">
+      <% if user_signed_in? %>
+        <%# Lien Inscription uniquement pour admin %>
+        <% if current_user.admin? %>
+          <%= link_to "Inscription", new_user_path,
+              class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" %>
+
+              
+        <% end %>
+
+        <%# Lien Déconnexion pour tous les connectés %>
+        <%= button_to "Déconnexion", destroy_user_session_path, method: :delete,
+            class: "rounded-md bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700" %>
+      <% else %>
+        <%# Lien Connexion si non connecté %>
+        <%= link_to "Connexion", new_user_session_path,
+            class: "rounded-md bg-green-600 px-3 py-2 text-sm text-white hover:bg-green-700" %>
+      <% end %>
+    </div>
+
+  </div>
+</nav>

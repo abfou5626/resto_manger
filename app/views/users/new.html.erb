@@ -1,0 +1,70 @@
+<%# app/views/users/new.html.erb %>
+
+<div class="max-w-2xl mx-auto p-6 bg-white rounded shadow-md">
+  <h1 class="text-2xl font-bold mb-4">Nouvel utilisateur</h1>
+
+  <%= form_with(model: @user, local: true, html: { class: "space-y-4" }) do |form| %>
+    
+    <% if @user.errors.any? %>
+      <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+        <h2 class="font-bold">Veuillez corriger les erreurs :</h2>
+        <ul class="list-disc pl-5">
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Prénom -->
+    <div>
+      <%= form.label :first_name, class: "block font-medium text-gray-700" %>
+      <%= form.text_field :first_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <!-- Nom -->
+    <div>
+      <%= form.label :last_name, class: "block font-medium text-gray-700" %>
+      <%= form.text_field :last_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <%= form.label :email, class: "block font-medium text-gray-700" %>
+      <%= form.email_field :email, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <!-- Mot de passe -->
+    <div>
+      <%= form.label :password, class: "block font-medium text-gray-700" %>
+      <%= form.password_field :password, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500", autocomplete: "new-password" %>
+    </div>
+
+    <!-- Confirmation mot de passe -->
+    <div>
+      <%= form.label :password_confirmation, class: "block font-medium text-gray-700" %>
+      <%= form.password_field :password_confirmation, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500", autocomplete: "new-password" %>
+    </div>
+
+    <!-- Rôle (visible seulement pour admin) -->
+    <% if current_user&.admin? %>
+      <div>
+        <%= form.label :role, class: "block font-medium text-gray-700" %>
+        <%= form.select :role, User::ROLES.map { |r| [r.titleize, r] },
+              {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+      </div>
+    <% end %>
+
+    <!-- Téléphone -->
+    <div>
+      <%= form.label :phone, class: "block font-medium text-gray-700" %>
+      <%= form.text_field :phone, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <!-- Submit -->
+    <div>
+      <%= form.submit "Créer l'utilisateur", class: "bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" %>
+    </div>
+
+  <% end %>
+</div>
