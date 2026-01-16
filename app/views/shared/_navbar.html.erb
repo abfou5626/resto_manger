@@ -23,17 +23,54 @@
     <!-- Right side -->
     <div class="flex items-center space-x-4 pr-4">
       <% if user_signed_in? %>
-        <%# Lien Inscription uniquement pour admin %>
-        <% if current_user.admin? %>
-          <%= link_to "Inscription", new_user_path,
-              class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white" %>
-
+        <!-- Menu profil utilisateur -->
+        <div class="relative" data-controller="dropdown">
+          <button data-action="click->dropdown#toggle" class="flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
+            <div class="h-8 w-8 rounded-full bg-slate-500 flex items-center justify-center text-white font-semibold">
+              <%= current_user.first_name.first.upcase %><%= current_user.last_name.first.upcase %>
+            </div>
+            <span class="hidden md:inline"><%= current_user.first_name %></span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          <!-- Dropdown menu -->
+          <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+            <div class="py-1">
+              <%= link_to user_path(current_user), class: "flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
+                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Mon profil
+              <% end %>
               
-        <% end %>
-
-        <%# Lien Déconnexion pour tous les connectés %>
-        <%= button_to "Déconnexion", destroy_user_session_path, method: :delete,
-            class: "rounded-md bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700" %>
+              <% if current_user.admin? %>
+                <div class="border-t border-gray-100"></div>
+                <%= link_to users_path, class: "flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
+                  <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                  Utilisateurs
+                <% end %>
+                <%= link_to new_user_path, class: "flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
+                  <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                  </svg>
+                  Nouvel utilisateur
+                <% end %>
+              <% end %>
+              
+              <div class="border-t border-gray-100"></div>
+              <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100" do %>
+                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Déconnexion
+              <% end %>
+            </div>
+          </div>
+        </div>
       <% else %>
         <%# Lien Connexion si non connecté %>
         <%= link_to "Connexion", new_user_session_path,

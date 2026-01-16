@@ -7,6 +7,9 @@ import { application } from "./application"
 import DeleteConfirmController from "./delete_confirm_controller"
 application.register("delete-confirm", DeleteConfirmController)
 
+import DropdownController from "./dropdown_controller"
+application.register("dropdown", DropdownController)
+
 import FadeOutController from "./fade_out_controller"
 application.register("fade-out", FadeOutController)
 
@@ -18,6 +21,12 @@ application.register("search", SearchController)
 
 import ToastController from "./toast_controller"
 application.register("toast", ToastController)
+
+import UserModalController from "./user_modal_controller"
+application.register("user-modal", UserModalController)
+
+import UserProfileController from "./user_profile_controller"
+application.register("user-profile", UserProfileController)
 
 import UsersController from "./users_controller"
 application.register("users", UsersController)
