@@ -28,27 +28,25 @@
     </div>
 
     <!-- Filtres par catégorie -->
-    <% categories = @menus.pluck(:category).compact.uniq.sort %>
-    <% if categories.any? %>
-      <div class="flex flex-wrap gap-2">
+    <div class="flex flex-wrap gap-2">
+      <button 
+        data-menu-filter-target="categoryBtn"
+        data-category="all"
+        data-action="click->menu-filter#filterByCategory"
+        class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white">
+        Tout
+      </button>
+      <% categories = @menus.pluck(:category).compact.uniq.sort %>
+      <% categories.each do |category| %>
         <button 
           data-menu-filter-target="categoryBtn"
-          data-category="all"
+          data-category="<%= category %>"
           data-action="click->menu-filter#filterByCategory"
-          class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white">
-          Tout
+          class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200">
+          <%= category %>
         </button>
-        <% categories.each do |category| %>
-          <button 
-            data-menu-filter-target="categoryBtn"
-            data-category="<%= category %>"
-            data-action="click->menu-filter#filterByCategory"
-            class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200">
-            <%= category %>
-          </button>
-        <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 
   <div id="menus" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
